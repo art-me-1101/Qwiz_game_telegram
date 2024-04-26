@@ -8,7 +8,7 @@ from db import DataB
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'qqweertty_secret_key'
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', filename='API.log')
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 

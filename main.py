@@ -9,8 +9,7 @@ from telegram.ext import Application, MessageHandler, filters, CommandHandler, C
 
 load_dotenv()
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    filename='game.log')
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 reply_keyboard1 = [['/start']]
@@ -89,7 +88,7 @@ async def choice_before_game(update: Update, context: ContextTypes.DEFAULT_TYPE)
         context.user_data['ids'].append(n['id'])
         context.user_data['r_ans'] = n['r_answer']
         context.user_data['qwest'] = n['text']
-        context.user_data['photo'] = 'API/' + str(n['photo'])
+        context.user_data['photo'] = str(n['photo'])
         num_to_ans = [[str(i) for i in range(1, len(context.user_data['ans']) + 1)], ['Подсказки', 'Правила игры']]
         murkup_ans = ReplyKeyboardMarkup(num_to_ans, one_time_keyboard=False)
         q = '\n'.join([str(i + 1) + ') ' + context.user_data['ans'][i] for i in range(len(context.user_data['ans']))])
@@ -247,7 +246,7 @@ async def choice_to_play(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['ids'].append(n['id'])
         context.user_data['r_ans'] = n['r_answer']
         context.user_data['qwest'] = n['text']
-        context.user_data['photo'] = 'API/' + str(n['photo'])
+        context.user_data['photo'] = str(n['photo'])
         num_to_ans = [[str(i) for i in range(1, len(context.user_data['ans']) + 1)], ['Подсказки', 'Правила игры']]
         murkup_ans = ReplyKeyboardMarkup(num_to_ans, one_time_keyboard=False)
         q = '\n'.join([str(i + 1) + ') ' + context.user_data['ans'][i] for i in range(len(context.user_data['ans']))])
@@ -296,7 +295,7 @@ async def helps(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['ids'].append(n['id'])
         context.user_data['r_ans'] = n['r_answer']
         context.user_data['qwest'] = n['text']
-        context.user_data['photo'] = 'API/' + str(n['photo'])
+        context.user_data['photo'] = str(n['photo'])
         num_to_ans = [[str(i) for i in range(1, len(context.user_data['ans']) + 1)], ['Подсказки', 'Правила игры']]
         murkup_ans = ReplyKeyboardMarkup(num_to_ans, one_time_keyboard=False)
         q = '\n'.join([str(i + 1) + ') ' + context.user_data['ans'][i] for i in range(len(context.user_data['ans']))])
