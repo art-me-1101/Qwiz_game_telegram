@@ -23,7 +23,6 @@ def quest(level):
         if not questions:
             return make_response(jsonify({'error': 'Not found'}), 404)
         question = choice(questions)
-        print(question.id)
         a = question.answers.split('|')
         shuffle(a)
         return jsonify(
