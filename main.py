@@ -6,6 +6,7 @@ import requests
 from dotenv import load_dotenv
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler, ContextTypes
+
 load_dotenv()
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -199,10 +200,10 @@ async def check_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f'Вы выиграли '
             f'{money_to_qwest[context.user_data["qwest_num"] - (context.user_data["qwest_num"] % 5)]} рублей,\n'
-            f'Прощайте.', reply_markup=markup2)
+            f'Прощайте.', reply_markup=markup)
         refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"] - (context.user_data["qwest_num"] % 5)])
         context.user_data.clear()
-        return 4
+        return ConversationHandler.END
     if context.user_data['qwest_num'] == 15:
         await update.message.reply_text(f'Поздравляю вы победили!\n'
                                         f'Вы вывиграли {money_to_qwest[context.user_data["qwest_num"]]} рублей.\n'
@@ -224,10 +225,10 @@ async def choice_to_play(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return 2
     elif update.message.text == 'Нет':
         await update.message.reply_text(f"Поздравляю вы выиграли {money_to_qwest[context.user_data['qwest_num']]}",
-                                        reply_markup=markup2)
+                                        reply_markup=markup)
         refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"]])
         context.user_data.clear()
-        return 4
+        return ConversationHandler.END
     else:
         context.user_data['qwest_num'] += 1
         # тут происходит запрос на вопрос
