@@ -5,7 +5,7 @@ import random
 import requests
 from dotenv import load_dotenv
 from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import Application, MessageHandler, filters, CommandHandler, ConversationHandler, ContextTypes
+from telegram.ext import Application, MessageHandler, filters, CommandHandler, ContextTypes, ConversationHandler
 
 load_dotenv()
 logging.basicConfig(level=logging.DEBUG,
@@ -79,10 +79,10 @@ async def choice_before_game(update: Update, context: ContextTypes.DEFAULT_TYPE)
             await update.message.reply_text(f"Вопросы закончились.")
             await update.message.reply_text(
                 f'Вы вывиграли {money_to_qwest[context.user_data["qwest_num"] - 1]} рублей.\n'
-                f'До новых встреч.', reply_markup=markup)
+                f'До новых встреч.', reply_markup=markup2)
             refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"] - 1])
             context.user_data.clear()
-            return ConversationHandler.END
+            return 4
         context.user_data['ans'] = n['answers']
         context.user_data['qwest_type'] = n['type']
         context.user_data['ids'].append(n['id'])
@@ -200,18 +200,18 @@ async def check_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f'Вы выиграли '
             f'{money_to_qwest[context.user_data["qwest_num"] - (context.user_data["qwest_num"] % 5)]} рублей,\n'
-            f'Прощайте.', reply_markup=markup)
+            f'Прощайте.', reply_markup=markup2)
         refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"] - (context.user_data["qwest_num"] % 5)])
         context.user_data.clear()
-        return ConversationHandler.END
+        return 4
     if context.user_data['qwest_num'] == 15:
         await update.message.reply_text(f'Поздравляю вы победили!\n'
                                         f'Вы вывиграли {money_to_qwest[context.user_data["qwest_num"]]} рублей.\n'
-                                        f'До новых встреч.', reply_markup=markup)
+                                        f'До новых встреч.', reply_markup=markup2)
         await update.message.reply_photo(get_cat())
         refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"]])
         context.user_data.clear()
-        return ConversationHandler.END
+        return 4
     context.user_data['second_chance'] = False
     await update.message.reply_text('И это правильный ответ.')
     await update.message.reply_text(f'хотите продолжить?', reply_markup=murkup3)
@@ -225,10 +225,10 @@ async def choice_to_play(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return 2
     elif update.message.text == 'Нет':
         await update.message.reply_text(f"Поздравляю вы выиграли {money_to_qwest[context.user_data['qwest_num']]}",
-                                        reply_markup=markup)
+                                        reply_markup=markup2)
         refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"]])
         context.user_data.clear()
-        return ConversationHandler.END
+        return 4
     else:
         context.user_data['qwest_num'] += 1
         # тут происходит запрос на вопрос
@@ -237,10 +237,10 @@ async def choice_to_play(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(f"Вопросы закончились.")
             await update.message.reply_text(
                 f'Вы вывиграли {money_to_qwest[context.user_data["qwest_num"] - 1]} рублей.\n'
-                f'До новых встреч.', reply_markup=markup)
+                f'До новых встреч.', reply_markup=markup2)
             refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"]])
             context.user_data.clear()
-            return ConversationHandler.END
+            return 4
         context.user_data['ans'] = n['answers']
         context.user_data['qwest_type'] = n['type']
         context.user_data['ids'].append(n['id'])
@@ -286,10 +286,10 @@ async def helps(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(f"Вопросы закончились.")
             await update.message.reply_text(
                 f'Вы вывиграли {money_to_qwest[context.user_data["qwest_num"] - 1]} рублей.\n'
-                f'До новых встреч.', reply_markup=markup)
+                f'До новых встреч.', reply_markup=markup2)
             refactor_user(user.id, money_to_qwest[context.user_data["qwest_num"] - 1])
             context.user_data.clear()
-            return ConversationHandler.END
+            return 4
         context.user_data['ans'] = n['answers']
         context.user_data['qwest_type'] = n['type']
         context.user_data['ids'].append(n['id'])
